@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .timer {
+            font-size: 48px;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f0f0f0;
+            width: fit-content;
+            margin: 20px auto;
+            transition: background-color 0.3s ease;
+        }
+
+        .red {
+            background-color: #ff0000;
+            color: white;
+        }
+
+        .orange {
+            background-color: #ffa500;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div id="timer" class="timer">30</div>
+
+    <script>
+        // Create audio element for the ding sound
+        const audio = new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-01.mp3');
+        
+        function startTimer(duration) {
+            let timer = duration;
+            const display = document.getElementById('timer');
+            
+            const countdown = setInterval(function () {
+                display.textContent = timer;
+                
+                // Color changes based on remaining time
+                if (timer <= 15 && timer > 10) {
+                    display.className = 'timer orange';
+                } else if (timer <= 10) {
+                    display.className = 'timer red';
+                    
+                    // Play ding sound for last 5 seconds
+                    if (timer <= 5 && timer > 0) {
+                        // Create a new audio instance each time to allow overlapping sounds
+                        const dingSound = new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-01.mp3');
+                        dingSound.play();
+                    }
+                } else {
+                    display.className = 'timer';
+                }
+                
+                if (--timer < 0) {
+                    clearInterval(countdown);
+                    display.textContent = "Time's up!";
+                }
+            }, 1000);
+        }
+
+        // Start timer when page loads
+        window.onload = function () {
+            startTimer(30);
+        };
+    </script>
+</body>
+</html>
